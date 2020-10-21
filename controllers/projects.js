@@ -1,13 +1,18 @@
-const projects = require('../models/projects.js')();
+//importing models
+const projects = require('../models/projects')();
+
 module.exports = () => {
+    //gets all docs
     const getController = async (req, res) => {
         res.json(await projects.get());
     }
 
+    //gets all docs filtered by slug
     const getBySlug = async (req, res) => {        
         res.json(await projects.get(req.params.slug));
     }
 
+    //inserts a new document
     const postController = async (req, res) => {
         const slug = req.body.slug;
         const name = req.body.name;

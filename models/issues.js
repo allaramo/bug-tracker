@@ -1,8 +1,9 @@
+//importing db and defining collection to be used
 const db = require('../db')();
 const COLLECTION = "issues";
 
 module.exports = () => {
-    
+    //gets docs filtered by issueNumber if specified otherwise gets all docs in collection
     const get = async (issueNumber=null) => {             
         if(!issueNumber){
             const issues = await db.get(COLLECTION);
@@ -12,11 +13,13 @@ module.exports = () => {
         return issues; 
     }
 
+    //gets all docs filtered by project id
     const getByProjectId = async (project_id=null) => {            
         const issues = await db.get(COLLECTION,{project_id});
         return issues; 
     }
     
+    //adds to collection
     const add = async (issueNumber, title, description, status, project_id) => {        
         const results = await db.add(COLLECTION,{
             issueNumber: issueNumber, 
@@ -28,6 +31,7 @@ module.exports = () => {
         return results.result;
     }
 
+    //counts how many docs are in the collection filtered by a query
     const count = async(query) => {
         const counter = await db.count(COLLECTION,query);        
         return counter;

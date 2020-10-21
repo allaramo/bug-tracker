@@ -1,15 +1,23 @@
+//the following code was imported from the exercises done at class
+
+//requesting mongo uri and importing database
 const uri = process.env.MONGO_URI;
 const MongoClient = require('mongodb').MongoClient;
 const DB_NAME = "bugtracker";
 const MONGO_OPTIONS = { useUnifiedTopology: true, useNewUrlParser: true};
 
 module.exports = () => {
+    //counts the elements from a collection with or without a query to filter docs
     const count = (collectionName, query = {}) => {
         return new Promise((resolve, reject) => {
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
                 const db = client.db(DB_NAME);
                 const collection = db.collection(collectionName);
                 collection.countDocuments(query, (err, docs) => {
+                    if(err){
+                        console.log("<<< Error while trying to count docs >>>");
+                        console.log(err);
+                    }
                     resolve(docs);
                     client.close();
                 });
@@ -17,25 +25,35 @@ module.exports = () => {
         });
     };
 
+    //finds docs from a specific collection with or without a query to filter them
     const get = (collectionName, query = {}) => {
         return new Promise((resolve, reject) => {
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
                 const db = client.db(DB_NAME);
                 const collection = db.collection(collectionName);
                 collection.find(query).toArray((err,docs)=>{
+                    if(err){
+                        console.log("<<< Error while trying to find >>>");
+                        console.log(err);
+                    }
                     resolve(docs);
                     client.close();
                 });                
             });
         });
     };
-       
+    
+    //performs an insert to the database using the collection and the information sent as a parameter
     const add = (collectionName, item) => {
         return new Promise((resolve, reject) => {
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
                 const db = client.db(DB_NAME);
                 const collection = db.collection(collectionName);
                 collection.insertOne(item, (err,result)=>{
+                    if(err){
+                        console.log("<<< Error while trying to insert >>>");
+                        console.log(err);
+                    }
                     resolve(result);
                     client.close();
                 });
@@ -43,6 +61,7 @@ module.exports = () => {
         });
     };    
 
+    //aggregates collections
     const aggregate = (collectionName, pipeline = []) => {
         return new Promise((resolve,reject)=>{
             MongoClient.connect(uri, MONGO_OPTIONS, (err,client)=>{
@@ -51,10 +70,9 @@ module.exports = () => {
 
                 collection.aggregate(pipeline).toArray((err,docs)=>{
                     if(err){
-                        console.log("--- aggregate error ---");
+                        console.log("<<< Error while trying to aggregate >>>");
                         console.log(err);
                     }
-
                     resolve(docs);
                     client.close();
                 });
