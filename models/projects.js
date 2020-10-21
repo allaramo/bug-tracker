@@ -19,7 +19,7 @@ module.exports = () => {
             description: description
         });
         return results.result;
-    }
+    }    
 
     return {
         get,

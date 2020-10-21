@@ -4,12 +4,12 @@ const DB_NAME = "bugtracker";
 const MONGO_OPTIONS = { useUnifiedTopology: true, useNewUrlParser: true};
 
 module.exports = () => {
-    const count = (collectionName) => {
+    const count = (collectionName, query = {}) => {
         return new Promise((resolve, reject) => {
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
                 const db = client.db(DB_NAME);
                 const collection = db.collection(collectionName);
-                collection.countDocuments({}, (err, docs) => {
+                collection.countDocuments(query, (err, docs) => {
                     resolve(docs);
                     client.close();
                 });
