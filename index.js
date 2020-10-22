@@ -40,6 +40,8 @@ app.get('/issues', issuesController.getController);
 app.get('/issues/issueNumber=:issueNumber', issuesController.getByIssueNumber);
 app.get('/issues/slug=:slug', issuesController.getByProjectSlug);
 app.post('/issues', issuesController.postController);
+//edits issue's status
+app.put('/issues/issueNumber=:issueNumber', issuesController.putController);
 //comments routes
 app.get('/issues/comments', commentsController.getController);
 app.get('/issues/comments/issueNumber=:issueNumber', commentsController.getByIssueNumber);

@@ -14,13 +14,21 @@ module.exports = () => {
     }
     
     //adds to collection
-    const add = async (slug, name, description) => {        
+    const add = async (slug, name, description) => { 
+        //uppercases the slug
+        const slugUpper = slug.toUpperCase();
+        //checks if slug already exists (in order to not duplicate issue's numbers)
+        const existingSlug = await db.get(COLLECTION,{"slug":slugUpper});
+        if(existingSlug.length>0){
+            console.log("<<< Error: Slug already exists >>>")
+            return "Error: Slug already exists"
+        }
         const results = await db.add(COLLECTION,{
-            slug: slug, 
+            slug: slugUpper, 
             name: name,
             description: description
         });
-        return results.result;
+        return results.result;     
     }    
 
     return {

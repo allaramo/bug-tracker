@@ -61,6 +61,24 @@ module.exports = () => {
         });
     };    
 
+    //performs an update to the database 
+    const edit = (collectionName, query, updates) => {
+        return new Promise((resolve, reject) => {
+            MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
+                const db = client.db(DB_NAME);
+                const collection = db.collection(collectionName);
+                collection.findOneAndUpdate(query, {$set: updates}, (err,result)=>{
+                    if(err){
+                        console.log("<<< Error while trying to update >>>");
+                        console.log(err);
+                    }
+                    resolve(result);
+                    client.close();
+                });
+            });
+        });
+    };  
+
     //aggregates collections
     const aggregate = (collectionName, pipeline = []) => {
         return new Promise((resolve,reject)=>{
@@ -84,6 +102,7 @@ module.exports = () => {
         count,
         get,
         add,
-        aggregate        
+        aggregate,
+        edit        
     };
 };

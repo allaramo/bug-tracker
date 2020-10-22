@@ -34,11 +34,20 @@ module.exports = () => {
         const result = await issues.add(issueNumber, title, description, status, project[0]._id);
         res.json(result);
     }
+
+    //updates the status of the document
+    const putController = async (req, res) => {
+        const issue = await issues.get(req.params.issueNumber);
+        const status = req.body.status;
+        const result = await issues.edit(issue[0]._id, status);
+        res.json(result);
+    }
     
     return {
         getController,
         postController,
         getByIssueNumber,
-        getByProjectSlug
+        getByProjectSlug,
+        putController
     }
 }

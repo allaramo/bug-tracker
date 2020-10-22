@@ -37,10 +37,17 @@ module.exports = () => {
         return counter;
     }
 
+    //updates the status of the issue id given
+    const edit = async (issue_id, status) => {
+        const results = await db.edit(COLLECTION,{"_id":issue_id},{"status":status})
+        return results.result;
+    }
+
     return {
         get,
         add,
         count,
-        getByProjectId
+        getByProjectId,
+        edit
     }
 };

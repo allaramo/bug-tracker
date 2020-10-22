@@ -14,9 +14,17 @@ module.exports = () => {
     }
     
     //adds to collection
-    const add = async (name, email, usertype) => {        
+    const add = async (name, email, usertype) => {    
+        //lowercases the user name 
+        const nameLower = name.toLowerCase();
+        //checks if the name already exists
+        const existingName = await db.get(COLLECTION,{"name":nameLower});
+        if(existingName.length>0){
+            console.log("<<< Error: User name already exists >>>")
+            return "Error: User name already exists"
+        }    
         const results = await db.add(COLLECTION,{            
-            name: name,
+            name: nameLower,
             email: email,
             usertype: usertype
         });
