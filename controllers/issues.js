@@ -42,12 +42,19 @@ module.exports = () => {
         const result = await issues.edit(issue[0]._id, status);
         res.json(result);
     }
+
+    //aggregates comments to each issue
+    const populatedController = async(req,res) => {
+        const result = await issues.aggregateWithComments()
+        res.json(result);
+    }    
     
     return {
         getController,
         postController,
         getByIssueNumber,
         getByProjectSlug,
-        putController
+        putController,
+        populatedController
     }
 }

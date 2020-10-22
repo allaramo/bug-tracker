@@ -84,14 +84,13 @@ module.exports = () => {
         return new Promise((resolve,reject)=>{
             MongoClient.connect(uri, MONGO_OPTIONS, (err,client)=>{
                 const db = client.db(DB_NAME);
-                const collection = db.collection(collectionName);
-
-                collection.aggregate(pipeline).toArray((err,docs)=>{
+                const collection = db.collection(collectionName);                
+                collection.aggregate(pipeline).toArray((err,result)=>{
                     if(err){
                         console.log("<<< Error while trying to aggregate >>>");
                         console.log(err);
-                    }
-                    resolve(docs);
+                    }                    
+                    resolve(result);
                     client.close();
                 });
             });

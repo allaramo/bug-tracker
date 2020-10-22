@@ -37,6 +37,7 @@ app.get('/users/name=:name', usersController.getByName);
 app.post('/users', usersController.postController);
 //issues routes
 app.get('/issues', issuesController.getController);
+app.get('/issues/populated', issuesController.populatedController);
 app.get('/issues/issueNumber=:issueNumber', issuesController.getByIssueNumber);
 app.get('/issues/slug=:slug', issuesController.getByProjectSlug);
 app.post('/issues', issuesController.postController);
