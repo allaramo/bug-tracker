@@ -26,28 +26,48 @@ app.use((req,res,next) => {
 });
 app.use(bodyParser.json());
 
-//Routes
-//project routes
+//ROUTES
+//PROJECT routes
+//get all projects
 app.get('/projects', projectsController.getController);
-app.get('/projects/slug=:slug', projectsController.getBySlug);
+//get an individual project by slug
+app.get('/projects/:slug', projectsController.getBySlug);
+//add a new project
 app.post('/projects', projectsController.postController);
-//user routes
+
+//USER routes
+//get all users
 app.get('/users', usersController.getController);
-app.get('/users/name=:name', usersController.getByName);
+//get an individual user by email
+app.get('/users/:email', usersController.getByEmail);
+//add a new user
 app.post('/users', usersController.postController);
-//issues routes
-app.get('/issues', issuesController.getController);
-app.get('/issues/populated', issuesController.populatedController);
-app.get('/issues/issueNumber=:issueNumber', issuesController.getByIssueNumber);
-app.get('/issues/slug=:slug', issuesController.getByProjectSlug);
-app.post('/issues', issuesController.postController);
-//edits issue's status
-app.put('/issues/issueNumber=:issueNumber', issuesController.putController);
-//comments routes
-app.get('/issues/comments', commentsController.getController);
-app.get('/issues/comments/issueNumber=:issueNumber', commentsController.getByIssueNumber);
-app.get('/issues/comments/author=:author', commentsController.getByAuthor);
-app.post('/issues/comments', commentsController.postController);
+
+//ISSUES routes
+//get all issues without comments
+app.get('/issues-only', issuesController.getController);
+//get all issues with comments
+app.get('/issues', issuesController.populatedController);
+//get an individual issue by its issue number
+app.get('/issues/:issueNumber', issuesController.getByIssueNumber);
+//get all issues for a project
+app.get('/projects/:slug/issues', issuesController.getByProjectSlug);
+//updates issue's status
+app.put('/projects/:slug/issues/:issueNumber/:status', issuesController.putController);
+//add a new issue to a project
+app.post('/projects/:slug/issues', issuesController.postController);
+
+//COMMENTS routes
+//get all comments
+app.get('/comments', commentsController.getController);
+//get all comments for an author
+app.get('/comments/:author', commentsController.getByAuthor);
+//get all comments for an issue
+app.get('/issues/:issueNumber/comments', commentsController.getByIssueNumber);
+//get individual comment for an issue
+app.get('/issues/:issueNumber/comments/:id', commentsController.getById);
+//add a bew comment to an issue
+app.post('/issues/:issueNumber/comments', commentsController.postController);
 
 //starting server
 app.listen(port, hostname, () => {

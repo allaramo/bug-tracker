@@ -31,6 +31,7 @@ module.exports = () => {
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
                 const db = client.db(DB_NAME);
                 const collection = db.collection(collectionName);
+                console.log(query);
                 collection.find(query).toArray((err,docs)=>{
                     if(err){
                         console.log("<<< Error while trying to find >>>");

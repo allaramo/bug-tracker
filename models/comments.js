@@ -4,8 +4,12 @@ const COLLECTION = "comments";
 
 module.exports = () => {
     //gets all docs in collection
-    const get = async () => {            
-        const comments = await db.get(COLLECTION);
+    const get = async (id=null) => {    
+        if(!id){
+            const comments = await db.get(COLLECTION);
+            return comments;
+        }        
+        const comments = await db.get(COLLECTION,{id});
         return comments;
     }
 
@@ -22,8 +26,10 @@ module.exports = () => {
     }
     
     //adds to collection
-    const add = async (text, author, issue_id) => {    
+    const add = async (text, author, issue_id) => {  
+        const commentCount = await db.count(COLLECTION);
         const results = await db.add(COLLECTION,{
+            id: commentCount + 1,
             text: text, 
             author: author,
             issue_id: issue_id
