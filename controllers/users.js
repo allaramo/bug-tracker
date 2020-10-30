@@ -25,10 +25,30 @@ module.exports = () => {
         const result = await users.add(name, email, usertype, key);                   
         res.json(result);
     }
+
+    //gets the key based on email and compares the hash
+    const getByKey = async (key,email) => {
+        if(!key){
+            console.log("01: Missing key");
+            return null;
+        }
+        const user = await users.get(email);     
+        if(user.length>0){           
+            if(bcrypt.compareSync(key,user[0].key)){
+                return user[0];
+            } else {
+                return null;
+            }
+        } else {        
+            console.log("02: Bad Key");
+            return null;
+        }
+    };   
     
     return {
         getController,
         postController,
-        getByEmail
+        getByEmail,
+        getByKey
     }
 }

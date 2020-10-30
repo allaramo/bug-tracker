@@ -12,7 +12,7 @@ module.exports = () => {
         const users = await db.get(COLLECTION,{email});
         return users; 
     }
-    
+   
     //adds to collection
     const add = async (name, email, usertype, key) => {    
         //lowercases the user's email 

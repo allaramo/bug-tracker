@@ -26,6 +26,38 @@ app.use((req,res,next) => {
 });
 app.use(bodyParser.json());
 
+//authentication x-api-key and x-api-email
+app.use(async (req,res,next)=>{
+    const FailedAuthMessage = {
+        error: "Failed Authentication",
+        message: "Try again",
+        code: "xxx"
+    }
+    const suppliedKey = req.headers["x-api-key"];
+    const suppliedEmail = req.headers["x-api-email"];
+    const clientIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    if(!suppliedKey || !suppliedEmail){        
+        console.log(
+            "[%s] FAILED AUTHENTICATION -- %s, No Key or Email Supplied", 
+            new Date(), 
+            clientIp
+        );
+        FailedAuthMessage.code = "01";
+        return res.status(401).json(FailedAuthMessage);
+    }
+    const user = await usersController.getByKey(suppliedKey,suppliedEmail);
+    if(!user){
+        console.log(
+            "[%s] FAILED AUTHENTICATION -- %s, Bad Key or Email Supplied", 
+            new Date(), 
+            clientIp
+        );
+        FailedAuthMessage.code = "02";
+        return res.status(401).json(FailedAuthMessage);
+    }
+    next();
+});
+
 //ROUTES
 //PROJECT routes
 //get all projects
