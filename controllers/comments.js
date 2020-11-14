@@ -6,7 +6,11 @@ const users = require('../models/users')();
 module.exports = () => {
     //gets all docs
     const getController = async (req, res) => {
-        res.json(await comments.get());
+        const {commentList, err} = await comments.get();
+        if (err) {
+            return res.status(500).json({err});
+        }
+        res.json({comments: commentList});
     }
 
     //gets all docs filtered by slug

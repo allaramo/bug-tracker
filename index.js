@@ -25,7 +25,7 @@ app.use((req,res,next) => {
     next();
 });
 app.use(bodyParser.json());
-
+/*
 //authentication x-api-key and x-api-email
 app.use(async (req,res,next)=>{
     const FailedAuthMessage = {
@@ -56,7 +56,7 @@ app.use(async (req,res,next)=>{
         return res.status(401).json(FailedAuthMessage);
     }
     next();
-});
+});*/
 
 //ROUTES
 //PROJECT routes
