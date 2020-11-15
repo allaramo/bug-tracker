@@ -25,7 +25,6 @@ module.exports = () => {
             //checks if slug already exists (in order to not duplicate issue's numbers)
             const existingSlug = await db.get(COLLECTION,{"slug":slugUpper});
             if(existingSlug.length>0){
-                console.log("<<< Error: Slug already exists >>>");
                 return {data: {error: "Slug already exists", project: slug}}; 
             }
             const results = await db.add(COLLECTION,{

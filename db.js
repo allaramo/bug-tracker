@@ -38,11 +38,10 @@ module.exports = () => {
                     return reject(err);
                 }
                 const db = client.db(DB_NAME);
-                const collection = db.collection(collectionName);
-                
+                const collection = db.collection(collectionName);                
                 collection.find(query).toArray((err,docs)=>{
                     if(err){
-                        console.log("<<< Error while trying to find >>>");
+                        console.log("<<< Error while trying to find >>>"); 
                         reject(err);
                     }
                     resolve(docs);

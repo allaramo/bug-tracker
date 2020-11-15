@@ -6,26 +6,34 @@ const users = require('../models/users')();
 module.exports = () => {
     //gets all docs
     const getController = async (req, res) => {
-        const {commentList, err} = await comments.get();
+        const {data, err} = await comments.get();
         if (err) {
             return res.status(500).json({err});
         }
-        res.json({comments: commentList});
+        res.json({comments: data});
     }
 
-    //gets all docs filtered by slug
+    //gets all docs filtered by id
     const getById = async (req, res) => {      
-        res.json(await comments.get(parseInt(req.params.id)));
+        const {data, err} = await comments.get(parseInt(req.params.id));
+        if (err) {
+            return res.status(500).json({err});
+        }
+        res.json({comments: data});
     }
 
     //gets all docs filtered by issue number
     const getByIssueNumber = async (req, res) => {  
         //gets the issue info of the issue number sent
         const issue = await issues.get(req.params.issueNumber);   
-        if(issue.length>0){
-            res.json(await comments.getByIssueId(issue[0]._id));
+        if(issue.data.length>0){
+            const {data, err} = await comments.getByIssueId(issue.data[0]._id);
+            if (err) {
+                return res.status(500).json({err});
+            }
+            res.json({comments: data});
         } else {
-            res.json("Issue Number not found");
+            return res.status(500).json({error: "Issue Number not found"});
         } 
     }
 
@@ -33,23 +41,45 @@ module.exports = () => {
     const getByAuthor = async (req, res) => { 
         //gets the user info of the author (user email) sent
         const user = await users.get(req.params.author); 
-        if(user.length>0){
-            res.json(await comments.getByAuthor(user[0]._id));
+        if(user.data.length>0){
+            const {data, err} = await comments.getByAuthor(user.data[0]._id);
+            if (err) {
+                return res.status(500).json({err});
+            }
+            res.json({comments: data});
         } else {
-            res.json("Email not found");
+            return res.status(500).json({error: "Email not found"});
         }
         
     }
 
     //inserts a document
     const postController = async (req, res) => {
-        //gets the user info of the author (user name) sent
-        const author = await users.get(req.body.author);
-        //gets the issue info of the issue number sent
-        const issue_id = await issues.get(req.params.issueNumber);              
-        const text = req.body.text;
-        const result = await comments.add(text, author[0]._id, issue_id[0]._id);
-        res.json(result);
+        if (req.body.author && req.params.issueNumber && req.body.text){
+            //gets the user info of the author (user name) sent
+            const author = await users.get(req.body.author);
+            if(!author.data.length>0){
+                return res.status(500).json({error: "Author not found"}); 
+            }
+            //gets the issue info of the issue number sent
+            const issue_id = await issues.get(req.params.issueNumber);   
+            if(!issue_id.data.length>0){
+                return res.status(500).json({error: "Issue Number not found"}); 
+            }           
+            const text = req.body.text;
+            
+            const {data, err} = await comments.add(text, author.data[0]._id, issue_id.data[0]._id);            
+            if(err){
+                return res.status(500).json({err});
+            } 
+            if("error" in data){
+                return res.status(500).json({error: data.error, comment: data.comment}); 
+            } else {
+                res.json({message: data.status, comment: data.comment}); 
+            }
+        } else {
+            return res.status(500).json({error: "All fields are required"});
+        } 
     }
     
     return {

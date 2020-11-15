@@ -5,35 +5,35 @@ const COLLECTION = "comments";
 module.exports = () => {
     //gets all docs in collection
     const get = async (id=null) => {  
-        try{  
+        try{            
             if(!id){
-                const comments = await db.get(COLLECTION);
-                return comments;
-            }        
-            const comments = await db.get(COLLECTION,{id});
-            return comments;
+                const results = await db.get(COLLECTION);
+                return {data: results}; 
+            }
+            const results = await db.get(COLLECTION,{id});
+            return {data: results};
         } catch (ex) {
-            return { error: ex }
+            return { error: ex };
         }
     }
 
     //gets all docs in collection filtered by author (user)
     const getByAuthor = async (author=null) => {      
         try{       
-            const comments = await db.get(COLLECTION,{author});
-            return comments; 
+            const results = await db.get(COLLECTION,{author});
+            return {data: results};
         } catch (ex) {
-            return { error: ex }
+            return { error: ex };
         }
     }
 
     //gets all docs in collection filtered by issue id
     const getByIssueId = async (issue_id=null) => {   
         try{         
-            const comments = await db.get(COLLECTION,{issue_id});
-            return comments; 
+            const results = await db.get(COLLECTION,{issue_id});
+            return {data: results};
         } catch (ex) {
-            return { error: ex }
+            return { error: ex };
         }
     }
     
@@ -47,9 +47,9 @@ module.exports = () => {
                 author: author,
                 issue_id: issue_id
             });
-            return results.result;
+            return {data: {status: "Data added successfully", comment: results.ops}}; 
         } catch (ex) {
-            return { error: ex }
+            return { error: ex };
         }
     }
 

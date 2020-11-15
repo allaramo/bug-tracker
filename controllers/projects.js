@@ -31,9 +31,10 @@ module.exports = () => {
                 return res.status(500).json({err});
             } 
             if("error" in data){
-                res.json({error: data.error, project: data.project}); 
+                return res.status(500).json({error: data.error, project: data.project}); 
+            } else {
+                res.json({message: data.status, project: data.project}); 
             }
-            res.json({message: data.status, project: data.project}); 
         } else {
             return res.status(500).json({error: "All fields are required"});
         }        

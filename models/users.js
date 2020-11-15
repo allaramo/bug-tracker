@@ -7,11 +7,11 @@ module.exports = () => {
     const get = async (email=null) => {             
         try{
             if(!email){
-                const users = await db.get(COLLECTION);
-                return users; 
+                const results = await db.get(COLLECTION);
+                return {data: results}; 
             }
-            const users = await db.get(COLLECTION,{email});
-            return users; 
+            const results = await db.get(COLLECTION,{email});
+            return {data: results}; 
         } catch (ex) {
             return { error: ex }
         }
@@ -25,7 +25,7 @@ module.exports = () => {
             //checks if the email already exists
             const existingEmail = await db.get(COLLECTION,{"email":emailLower});
             if(existingEmail.length>0){
-                return "Error: Email already exists"
+                return {data: {error: "Email already exists", user: email}};
             }    
             const results = await db.add(COLLECTION,{            
                 name: name,
@@ -33,7 +33,7 @@ module.exports = () => {
                 usertype: usertype,
                 key: key
             });
-            return results.result;
+            return {data: {status: "Data added successfully", user: results.ops}};
         } catch (ex) {
             return { error: ex }
         }

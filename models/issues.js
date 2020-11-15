@@ -50,11 +50,11 @@ module.exports = () => {
     const get = async (issueNumber=null) => {  
         try{           
             if(!issueNumber){
-                const issues = await db.get(COLLECTION);
-                return issues; 
+                const results = await db.get(COLLECTION);
+                return {data: results};  
             }
-            const issues = await db.get(COLLECTION,{issueNumber});
-            return issues; 
+            const results = await db.get(COLLECTION,{issueNumber});
+            return {data: results};  
         } catch (ex) {
             return { error: ex }
         }
@@ -63,8 +63,8 @@ module.exports = () => {
     //gets all docs filtered by project id
     const getByProjectId = async (project_id=null) => {    
         try{        
-            const issues = await db.get(COLLECTION,{project_id});
-            return issues; 
+            const results = await db.get(COLLECTION,{project_id});
+            return {data: results}; 
         } catch (ex) {
             return { error: ex }
         }
@@ -80,10 +80,10 @@ module.exports = () => {
                 status: status,
                 project_id: project_id 
             });
-            return results.result;
+            return {data: {status: "Data added successfully", project: results.ops}}; 
         } catch (ex) {
             return { error: ex }
-        }
+        } 
     }
 
     //counts how many docs are in the collection filtered by a query
@@ -100,7 +100,7 @@ module.exports = () => {
     const edit = async (issue_id, status) => {
         try{
             const results = await db.edit(COLLECTION,{"_id":issue_id},{"status":status})
-            return results.result;
+            return {data: {status: "Data updated successfully", project: results.ops}}; 
         } catch (ex) {
             return { error: ex }
         }
@@ -110,7 +110,7 @@ module.exports = () => {
     const aggregateWithComments = async () => {
         try{
             const results = await db.aggregate(COLLECTION, LOOKUP_PIPELINE);
-            return results;
+            return {data: results}; 
         } catch (ex) {
             return { error: ex }
         }
