@@ -12,7 +12,7 @@ Bug Tracker allows you to manage issues in your projects. By using this system y
 * [About the Author] (#author)
 
 ## What does bug tracker do
-Bug tracker allows users to add project. Each project can have one or more issues. Issues represent bugs, errors, features to add, or other concern related to the project. Each issue has one status, being the status "open" one of the inital status that can be used. Other status can be "wip", "blocked" and "closed". However, the system allows to create more status if needed. Once an issue is created, users can add comments related to that issue in order to solve it.
+Bug tracker allows users to add project. Each project can have one or more issues. Issues represent bugs, errors, features to add, or other concern related to the project. Each issue has one status, being the status "open" one of the inital status that can be used. Other status can be "wip", "blocked" and "closed". However, the system allows to create more status if needed. Once an issue is created, users can add comments related to that issue in order to solve it. Email notifications will be sent to every Administrator when a new project, user, issue and comment is created.
 
 ## How to set it up
 1. Clone the project running the following command:
@@ -114,6 +114,7 @@ http://localhost:3000/issues/<issueNumber>/comments
 
 ## Changelog
 
+* 23 November 2020 NodeMailer Notifications to Admins
 * 21 November 2020 Readme modified
 * 15 November 2020 Finished Error Checking. Users and slugs cannot be repeated. All fields are required in POST actions. Added Try/Catch to all promises.
 

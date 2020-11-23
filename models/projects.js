@@ -1,6 +1,7 @@
 //importing db and defining collection to be used
 const db = require('../db')();
 const COLLECTION = "projects";
+const notification = require('../email')();
 
 module.exports = () => {
     //gets docs filtered by slug if specified otherwise gets all docs in collection
@@ -32,6 +33,7 @@ module.exports = () => {
                 name: name,
                 description: description
             }); 
+            notification.emailAdminNotification("New Project", "Project " + name + " (" + slugUpper + ") was created");  
             return {data: {status: "Data added successfully", project: results.ops}}; 
         } catch (ex) {
             return { error: ex };

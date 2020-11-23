@@ -1,6 +1,7 @@
 //importing db and defining collection to be used
 const db = require('../db')();
 const COLLECTION = "comments";
+const notification = require('../email')();
 
 module.exports = () => {
     //gets all docs in collection
@@ -38,7 +39,7 @@ module.exports = () => {
     }
     
     //adds to collection
-    const add = async (text, author, issue_id) => { 
+    const add = async (text, author, issue_id, issueNumber) => { 
         try{ 
             const commentCount = await db.count(COLLECTION);
             const results = await db.add(COLLECTION,{
@@ -47,6 +48,7 @@ module.exports = () => {
                 author: author,
                 issue_id: issue_id
             });
+            notification.emailAdminNotification("New Comment", "New Comment on Issue (" + issueNumber + ")"); 
             return {data: {status: "Data added successfully", comment: results.ops}}; 
         } catch (ex) {
             return { error: ex };

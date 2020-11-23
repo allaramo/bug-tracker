@@ -1,6 +1,7 @@
 //importing db and defining collection to be used
 const db = require('../db')();
 const COLLECTION = "users";
+const notification = require('../email')();
 
 module.exports = () => {
     //gets docs filtered by email if specified otherwise gets all docs in collection
@@ -33,7 +34,8 @@ module.exports = () => {
                 usertype: usertype,
                 key: key
             });
-            return {data: {status: "Data added successfully", user: results.ops}};
+            notification.emailNotification(emailLower,"New User", "User " + name + " (" + emailLower + ") was created");            
+            return {data: {status: "Data added successfully", user: results.ops}};                       
         } catch (ex) {
             return { error: ex }
         }

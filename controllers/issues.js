@@ -71,7 +71,7 @@ module.exports = () => {
         if(issue.data.length>0){
             const status = req.params.status;
             if(status){
-                const {data, err} = await issues.edit(issue.data[0]._id, status);
+                const {data, err} = await issues.edit(issue.data[0]._id, status, issue.data[0].issueNumber);
                 if(err){
                     return res.status(500).json({err});
                 } 

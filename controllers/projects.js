@@ -32,7 +32,7 @@ module.exports = () => {
             } 
             if("error" in data){
                 return res.status(500).json({error: data.error, project: data.project}); 
-            } else {
+            } else {                
                 res.json({message: data.status, project: data.project}); 
             }
         } else {

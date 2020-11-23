@@ -68,7 +68,7 @@ module.exports = () => {
             }           
             const text = req.body.text;
             
-            const {data, err} = await comments.add(text, author.data[0]._id, issue_id.data[0]._id);            
+            const {data, err} = await comments.add(text, author.data[0]._id, issue_id.data[0]._id, req.params.issueNumber);            
             if(err){
                 return res.status(500).json({err});
             } 

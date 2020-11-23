@@ -1,6 +1,7 @@
 //importing db and defining collection to be used
 const db = require('../db')();
 const COLLECTION = "issues";
+const notification = require('../email')();
 
 //creating pipeline
 //code based on class exercises and adapted from the solution given in:
@@ -79,8 +80,9 @@ module.exports = () => {
                 description: description,
                 status: status,
                 project_id: project_id 
-            });
-            return {data: {status: "Data added successfully", project: results.ops}}; 
+            });            
+            notification.emailAdminNotification("New Issue", "New Issue was found: " + title + " (" + issueNumber + ")");  
+            return {data: {status: "Data added successfully", project: results.ops}};
         } catch (ex) {
             return { error: ex }
         } 
@@ -97,9 +99,10 @@ module.exports = () => {
     }
 
     //updates the status of the issue id given
-    const edit = async (issue_id, status) => {
+    const edit = async (issue_id, status, issueNumber) => {
         try{
             const results = await db.edit(COLLECTION,{"_id":issue_id},{"status":status})
+            notification.emailAdminNotification("Issue's Status Changed", "Issue (" + issueNumber + ") changed to " + status);  
             return {data: {status: "Data updated successfully", project: results.ops}}; 
         } catch (ex) {
             return { error: ex }

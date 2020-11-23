@@ -51,10 +51,10 @@ module.exports = () => {
             console.log("01: Missing key");
             return null;
         }
-        const user = await users.get(email);      
-        if(user.length>0){           
-            if(bcrypt.compareSync(key,user[0].key)){
-                return user[0];
+        const {data, err}  = await users.get(email);
+        if(!err){           
+            if(bcrypt.compareSync(key,data[0].key)){
+                return data[0];
             } else {
                 return null;
             }
