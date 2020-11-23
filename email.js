@@ -8,8 +8,8 @@ module.exports = () => {
         let email = nm.createTransport({
             service: 'gmail',
             auth: {
-                user: 'allaramo.spam@gmail.com',//process.env.EMAIL,
-                pass: 'C@qyruc0.'//process.env.PASSWORD
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
             },
             tls: {
                 rejectUnauthorized: false
@@ -20,7 +20,7 @@ module.exports = () => {
             const results = await db.get("users",{usertype:"admin"});                    
             for(r in results){
                 email.sendMail({
-                    from: 'allaramo.spam@gmail.com',//process.env.EMAIL,
+                    from: process.env.EMAIL,
                     to: results[r].email,
                     subject: subject,
                     text: message
@@ -41,8 +41,8 @@ module.exports = () => {
         let email = nm.createTransport({
             service: 'gmail',
             auth: {
-                user: 'allaramo.spam@gmail.com',//process.env.EMAIL,
-                pass: 'C@qyruc0.'//process.env.PASSWORD
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
             },
             tls: {
                 rejectUnauthorized: false
@@ -51,7 +51,7 @@ module.exports = () => {
 
         //configures the message and recepients of the email
         let config = {
-            from: 'allaramo.spam@gmail.com',//process.env.EMAIL,
+            from: process.env.EMAIL,
             to: address,
             subject: subject,
             text: message
