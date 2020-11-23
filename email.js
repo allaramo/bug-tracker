@@ -27,6 +27,7 @@ module.exports = () => {
                 }, function(err,data){
                     if(err){
                         console.log('Email Notification to Admin ' + results[r].email + ' Failed');
+                        console.log(err);
                     }
                 });                        
             }  
@@ -60,6 +61,7 @@ module.exports = () => {
         email.sendMail(config, async function(err, data){
             if(err){
                 console.log('Email Notification Failed');
+                console.log(err);
             } else {
                 console.log('Email Notification Sent');
                 emailAdminNotification(message,subject);                
