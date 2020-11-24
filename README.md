@@ -3,13 +3,13 @@
 Bug Tracker allows you to manage issues in your projects. By using this system you will be able to add as many projects you are developing and also add for each project issues related to bugs that should be fixed or new features to be added. Each user can add issues to a project, update the status of these issues and add comments related to them.
 
 ## Table of Contents
-* [What does bug tracker do] (#what-does-bug-tracker-do)
-* [How to set it up] (#how-to-set-it-up)
-* [Technologies used] (#technologies-used)
-* [Example usage and Routes] (#routes)
-* [Changelog] (#changelog)
-* [Roadmap] (#roadmap)
-* [About the Author] (#author)
+* [What does bug tracker do](#what-does-bug-tracker-do)
+* [How to set it up](#how-to-set-it-up)
+* [Technologies used](#technologies-used)
+* [Routes](#routes)
+* [Changelog](#changelog)
+* [Roadmap](#roadmap)
+* [Author](#author)
 
 ## What does bug tracker do
 Bug tracker allows users to add project. Each project can have one or more issues. Issues represent bugs, errors, features to add, or other concern related to the project. Each issue has one status, being the status "open" one of the inital status that can be used. Other status can be "wip", "blocked" and "closed". However, the system allows to create more status if needed. Once an issue is created, users can add comments related to that issue in order to solve it. Email notifications will be sent to every Administrator when a new project, user, issue and comment is created.
