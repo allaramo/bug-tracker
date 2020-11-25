@@ -114,6 +114,7 @@ http://localhost:3000/issues/<issueNumber>/comments
 
 ## Changelog
 
+* 23 November 2020 Docker image was created. Available in [Docker Hub](https://hub.docker.com/r/allaramo/bugtracker)
 * 23 November 2020 NodeMailer Notifications to Admins
 * 21 November 2020 Readme modified
 * 15 November 2020 Finished Error Checking. Users and slugs cannot be repeated. All fields are required in POST actions. Added Try/Catch to all promises.

@@ -38,8 +38,6 @@ module.exports = () => {
     }
 
     const emailNotification = (address, subject, message) => {  
-        console.log(process.env.EMAIL);
-        console.log(process.env.PASSWORD);
         //creates a new transporte for the email
         let email = nm.createTransport({
             service: 'gmail',
